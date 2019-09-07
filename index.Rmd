@@ -53,11 +53,6 @@ df_stroke_long <- set_long(df_stroke)
 df_dementia<- import("./survdata_dem.sas7bdat") 
 df_dementia_long <- set_long(df_dementia)
 ```
-
----
-
-# Qué es inferencia causal?
-
 ---
 background-image: url(http://es.xkcd.com/site_media/strips/correlation.png)
 
@@ -85,31 +80,20 @@ background-image: url(http://es.xkcd.com/site_media/strips/correlation.png)
 
 ---
 
+### Intervenciones sostenidas en el tiempo 
 
 .pull-left[
-### Intervenciones en un tiempo específico 
-
-#### &#x1F489;
-
-Cirugía
-
-Un trauma craneo-encefálico
-
-<img src=./time_fixed.png />
-
+### &#x1F48A; 
+### &#x1F957;
+### &#x1F6AD;
+### &#x1F3C3; &#x1F6B5;
 ]
 
 --
-
 .pull-right[
-### Intervenciones sostenidas en el tiempo 
-
-### &#x1F48A; &#x1F957;
-### &#x1F6AD; &#x1F3C3; &#x1F6B5;
-
 <img src=./time_varying.png />
-
 ]
+
 
 .footnote[
 - A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
@@ -118,25 +102,8 @@ Un trauma craneo-encefálico
 ---
 # Ensayos clínicos aleatorizados
 
-.pull-left[
-
-
 <img src=./rct.png width="400" height="200" />
-]
 
---
-
-.pull-right[
-**Análisis por intención de tratar:**
-
-Cuál es el efecto de la aleatorización?
-
-
-
-**Análisis por protocolo:**
-
-Cuál es el efecto de la intervención si todos hubiesen seguido la estrategia asignada durante todo el periodo de tiempo?
-]
 
 .footnote[
 - A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
@@ -202,8 +169,6 @@ class: center, middle
 - Mantener la presión arterial sistólica (PAS) < 120 mmHg
 
 - Mantener la presión arterial sistólica (PAS) < 140 mmHg
-
-- Reducir en un 10% del valor actual si es > a 140 mmHg
 
 --
 
@@ -347,12 +312,6 @@ surv_graph(df_stroke_long, 0, 2, "ACV")
 ## Resultados: ACV
 
 ```{r warning= FALSE, echo=FALSE, fig.align='center'}
-surv_graph(df_stroke_long, 0, 3, "ACV")
-```
-
-## Resultados: ACV
-
-```{r warning= FALSE, echo=FALSE, fig.align='center'}
 surv_graph(df_stroke_long, 0, 6, "ACV")
 ```
 ---
@@ -367,13 +326,6 @@ surv_graph(df_stroke_long, 0, 7, "ACV")
 ```{r warning= FALSE, echo=FALSE, fig.align='center'}
 surv_graph(df_stroke_long, 0, 8, "ACV")
 ```
----
-## Resultados: ACV
-
-```{r warning= FALSE, echo=FALSE, fig.align='center'}
-surv_graph(df_stroke_long, 0, 9, "ACV")
-```
-
 ---
 ## Resultados: Demencia
 
@@ -399,12 +351,6 @@ surv_graph(df_dementia_long, 0, 2, "demencia")
 ## Resultados: Demencia
 
 ```{r warning= FALSE, echo=FALSE, fig.align='center'}
-surv_graph(df_dementia_long, 0, 3, "demencia")
-```
----
-## Resultados: Demencia
-
-```{r warning= FALSE, echo=FALSE, fig.align='center'}
 surv_graph(df_dementia_long, 0, 6, "demencia")
 ```
 ---
@@ -418,12 +364,6 @@ surv_graph(df_dementia_long, 0, 7, "demencia")
 
 ```{r warning= FALSE, echo=FALSE, fig.align='center'}
 surv_graph(df_dementia_long, 0, 8, "demencia")
-```
----
-## Resultados: Demencia
-
-```{r warning= FALSE, echo=FALSE, fig.align='center'}
-surv_graph(df_dementia_long, 0, 9, "demencia")
 ```
 ---
 
@@ -459,6 +399,7 @@ surv_graph(df_dementia_long, 0, 9, "demencia")
 
 - Al utilizar **_datos longitudinales_** tenemos que tener en cuenta los mecanismos de generación de datos.
 
+- Correlación no implica causalidad.
 ---
 
 

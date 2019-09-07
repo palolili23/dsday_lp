@@ -1,7 +1,7 @@
 table <- function(data){
   bracket <- ")"
   data %>% 
-    filter(int %in% c(0,1,2,3,6,7,8,9)) %>% 
+    filter(int %in% c(0,1,2,6,7,8)) %>% 
     mutate_if(is.numeric, round,1) %>% 
     unite("riskCI95", c("pd_llim95", "pd_ulim95"), sep = ",", remove = TRUE) %>% 
     unite("r", c("pd", "riskCI95"), sep = " (", remove = TRUE) %>% 
@@ -16,11 +16,9 @@ table <- function(data){
       int == 0 ~ "0. Curso natural",
       int == 1 ~ "1. Mantener PAS < 120 mmHg",
       int == 2 ~ "2. Mantener PAS < 140 mmHg",
-      int == 3 ~ "3. Reducir PAS en 10% si > 140 mmHg",
-      int == 6 ~ "4. Dejar de fumar (si fuma actualmente)",
-      int == 7 ~ "6. Intervencion 1 + 4",
-      int == 8 ~ "7. Intervencion 2 + 4",
-      int == 9 ~ "8. Intervencion 3 + 4",
+      int == 6 ~ "3. Dejar de fumar (si fuma actualmente)",
+      int == 7 ~ "4. Intervencion 1 + 3",
+      int == 8 ~ "5. Intervencion 2 + 3",
       TRUE ~ int2)) %>% 
     select(int2, Riesgo, RR, DR, intervened) %>% 
     rename(`Intervencion` = int2,
@@ -53,11 +51,9 @@ set_long <- function(df){
              int == 0 ~ "0. Curso natural",
              int == 1 ~ "1. Mantener PAS < 120 mmHg",
              int == 2 ~ "2. Mantener PAS < 140 mmHg",
-             int == 3 ~ "3. Reducir PAS en 10% si > 140 mmHg",
-             int == 6 ~ "4. Dejar de fumar (si fuma actualmente)",
-             int == 7 ~ "6. Intervencion 1 + 4",
-             int == 8 ~ "7. Intervencion 2 + 4",
-             int == 9 ~ "8. Intervencion 3 + 4",
+             int == 6 ~ "3. Dejar de fumar (si fuma actualmente)",
+             int == 7 ~ "4. Intervencion 1 + 3",
+             int == 8 ~ "5. Intervencion 2 + 3",
              TRUE ~ int2),
            int2 = as.factor(int2))
   
