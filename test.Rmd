@@ -1,0 +1,467 @@
+---
+title: "Métodos de inferencia causal en el campo de enfermedades neurodegenerativas"
+author: "L. Paloma Rojas Saunero"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE, fig.retina = 3, fig.width =  9)
+library(here)
+library(tidyverse)
+library(xkcd)
+library(lubridate)
+library(rio)
+library(kableExtra)
+library(janitor)
+library(stringr)
+library(glue)
+library(cr17)
+here()
+
+source("functions.R")
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+mono_accent(
+  base_color = "#3B9AB2",
+  black_color = "#3B9AB2",
+  header_color = "#EBCC2A",
+  text_bold_color = "#F21A00",
+  header_font_google = google_font("Chilanka"),
+  text_font_google   = google_font("Lato", "400", "400i"))
+```
+
+
+```{r include = FALSE}
+df_stroke<- import("./survdata_str.sas7bdat") 
+df_stroke_long <- set_long(df_stroke)
+
+df_dementia<- import("./survdata_dem.sas7bdat") 
+df_dementia_long <- set_long(df_dementia)
+```
+
+---
+
+# Qué es inferencia causal?
+
+---
+background-image: url(http://es.xkcd.com/site_media/strips/correlation.png)
+
+### Correlación no implica causalidad
+
+---
+
+### Ejemplo:
+
+--
+
+## &#x1F575;
+
+--
+
+## &#x1F327;&#xFE0F; <-> &#x2614;
+
+--
+## &#x1F31E; + &#x2602;&#xFE0F; = &#x1F937;
+
+
+---
+
+
+.pull-left[
+### Intervenciones en un tiempo específico 
+
+- Una dosis de vacunación
+
+- Cirugía
+
+- Un trauma craneo-encefálico
+
+<img src=./time_fixed.png />
+
+]
+
+--
+
+.pull-right[
+### Intervenciones sostenidas en el tiempo 
+
+- Medicación
+
+- Dieta
+
+- Dejar de fumar
+
+- Realizar ejercicio
+
+<img src=./time_varying.png />
+
+]
+
+.footnote[
+- A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
+- DAG from Hernan MA, Robins JM (2019). Causal Inference.]
+
+---
+## Ensayos clínicos aleatorizados
+
+.pull-left[
+
+
+<img src=./rct.png width="400" height="200" />
+]
+
+--
+
+.pull-right[
+**Análisis por intención de tratar:**
+
+Cuál es el efecto de la aleatorización?
+
+
+
+**Análisis por protocolo:**
+
+Cuál es el efecto de la intervención si todos hubiesen seguido la estrategia asignada durante todo el periodo de tiempo?
+]
+
+.footnote[
+- A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
+- DAG from Hernan MA, Robins JM (2019). Causal Inference.]
+---
+
+## Estudios observacionales
+
+.pull-left[
+
+<img src=./observational.png width="400" height="200"/>]
+
+.pull-right[
+- Estudios de cohorte, historias clínicas electrónicas, registros nacionales
+
+- Bajo ciertos supuestos podemos estimar el efecto causal de una exposición como si estuviesemos realizando un ensayo clínico aleatorizado.
+]
+
+.footnote[
+- A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
+- DAG from Hernan MA, Robins JM (2019). Causal Inference.]
+---
+name: title
+class: center, middle
+
+## Intervenciones hipotéticas en la Presión Arterial Sistólica y cesión de fumar para reducir el riesgo ACV y de demencia
+
+---
+
+## Motivación
+
+- El infarto cerebral y demencia son una carga importante en la salud pública y tienen factores de riesgo compartidos. 
+
+- Los ensayos clínicos aleatorizados estudian poblaciones muy específicas, tienen poco tiempo de seguimiento y utilizan análisis por intensión de tratar. 
+
+- Hay poca evidencia del **efecto sostenido** de intervenciones sobre la presión arterial y le cese de fumar
+
+
+---
+
+## Métodos
+
+- Participantes del *Rotterdam Study*, recrutados entre 1990-1993 y seguidos en 5 oportunidades a lo largo de 20 años (n = 7983)
+
+- Criterios de inclusión:
+
+  + Personas menores a 80 años
+  
+  + Sin historia de ACV o demencia o deterioro cognitivo al ingreso al estudio
+  
+  + Información completa al ingreso
+  
+- Muestra total de **5113** 
+
+---
+
+## Intervenciones hipotéticas 
+
+- Curso natural
+
+--
+
+- Mantener la presión arterial sistólica (PAS) < 120 mmHg
+
+- Mantener la presión arterial sistólica (PAS) < 140 mmHg
+
+- Reducir en un 10% del valor actual si es > a 140 mmHg
+
+--
+
+- Dejar de fumar (if fuma actualmente)
+
+--
+
+- Intervenciones conjuntas para disminuir la presión arterial y dejar de fumar
+
+
+---
+## Variable de resultado
+
+- ACV 
+
+- Demencia
+
+- Seguimiento durante 15 años desde el recrutamiento 
+
+- Pérdida de seguimiento
+
+- Muerte es un evento competitivo
+
+---
+## Covariables
+
+.pull-left[
+**Covariables al inicio del estudio:** 
+
+- Edad
+- Educacion
+- Historia de diabetes
+- Historia de enfermedad cardiaca
+- Presión arterial sistólica
+]
+
+--
+
+.pull-right[
+**Covariables que cambian en el tiempo:** 
+
+- Proceso de las visitas
+- Presión Arterial sistólica
+- Indice de masa corporal
+- Consumo de cigarrillos
+- Ingesta de alcohol (g/dia)
+- Colesterol
+- Medicación para la presión alta
+- Desarrollo de: 
+  - Diabetes
+  - Enfermedad cardiaca
+  - Cancer 
+  - ACV/Demencia]
+  
+---
+  
+## Analisis
+
+.center[**_Qué pasaría si toda la población hubiese seguido la intervención asignada (g)?_**]
+
+- G-formula paramétrica
+
+- Permite la presencia de covariables que cambian en el tiempo y que dichas variables pudiesen ser afectadas por la exposición en un tiempo previo.
+
+--
+
+.pull-left[<img src=./dag1.PNG width="400" height="200" />]
+
+--
+
+.pull-right[<img src=./dag2.png width="400" height="200" />]
+
+.footnote[
+- A (exposición), L (confundidores), Y (resultado)
+- *g=1*: intervención hipotética (ex. mantener la PAS < 140)]
+---
+
+## G-formula paramétrica
+
+1. Modelamos cada variable por separado (A, L, Y, D) utilizando la información de las variables en los tiempos previos.
+
+--
+
+2. Seleccionamos una muestra al azar y simulamos las observaciones utilizando los coeficientes que estimamos en el paso q utilizando Monte Carlo.
+
+--
+
+3. "Intervenimos" asignando el valor de la exposición que corresponde a la intervención hipotética en todos los puntos del tiempo.
+
+--
+
+4. Estimamos la probabilidad predicha de la variable de resultado basada en los valores actualizados de la exposición.
+
+--
+
+5. Calculamos el promedio del riesgo específico de cada individuo y estimamos los intervalos de confianza utilizando bootstrap.
+
+--
+
+6. Repetimos los pasos 2 a 5 para cada intervención. Comparamos cada intervención con el 
+
+---
+
+## Supuestos
+
+--
+
+- Intercambiabilidad: *Medimos todas las variables que puedan afectar los resultados*
+
+- Positivity: *Pr(Expuesto|Covariables > 0)*
+
+- Consistency: *Intervención está bien definida*
+
+- Los modelos están correctamente especificados
+
+---
+### Assessing modeling
+
+
+<img src=./stroke.png width="500" height="450"/>
+
+---
+## Results: ACV
+El riesgo observado en 15 años de seguimiento es **10.7%**. 
+
+```{r warning= FALSE, echo=FALSE}
+data <- import("./results_str.sas7bdat")  
+table(data)
+```
+
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 1, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 2, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 3, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 4, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 6, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 7, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 8, "stroke")
+```
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 9, "stroke")
+```
+
+---
+## Resultados: ACV
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_stroke_long, 0, 10, "stroke")
+```
+---
+## Resultados: Demencia
+
+El riesgo observado en 15 años de seguimiento es **9.15%**. 
+
+```{r warning= FALSE, echo=FALSE}
+data <- import("./results_dem.sas7bdat")  
+table(data)
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 1, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 2, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 3, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 4, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 6, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 7, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 8, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 9, "dementia")
+```
+---
+## Resultados: Demencia
+
+```{r, warning= FALSE, echo=FALSE, fig.align='center'}
+surv_graph(df_dementia_long, 0, 10, "dementia")
+```
+---
+## Conclusión
+
+- All interventions decrease the risk of stroke at 15 years.
+
+- Joint interventions decrease the risk of stroke even more.
+
+- There is no effect of interventions in the risk of dementia at 15 years.
+
+- Results with dementia as the outcome may be afected by selection bias.
+
+
+
+
+
+

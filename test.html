@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Métodos de inferencia causal en el campo de enfermedades neurodegenerativas</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="L. Paloma Rojas Saunero" />
+    <meta name="date" content="2019-09-07" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Métodos de inferencia causal en el campo de enfermedades neurodegenerativas
+### L. Paloma Rojas Saunero
+### 2019-09-07
+
+---
+
+
+
+
+
+
+
+
+
+---
+
+# Qué es inferencia causal?
+
+---
+background-image: url(http://es.xkcd.com/site_media/strips/correlation.png)
+
+### Correlación no implica causalidad
+
+---
+
+### Ejemplo:
+
+--
+
+## &amp;#x1F575;
+
+--
+
+## &amp;#x1F327;&amp;#xFE0F; &lt;-&gt; &amp;#x2614;
+
+--
+## &amp;#x1F31E; + &amp;#x2602;&amp;#xFE0F; = &amp;#x1F937;
+
+
+---
+
+
+.pull-left[
+### Intervenciones en un tiempo específico 
+
+- Una dosis de vacunación
+
+- Cirugía
+
+- Un trauma craneo-encefálico
+
+&lt;img src=./time_fixed.png /&gt;
+
+]
+
+--
+
+.pull-right[
+### Intervenciones sostenidas en el tiempo 
+
+- Medicación
+
+- Dieta
+
+- Dejar de fumar
+
+- Realizar ejercicio
+
+&lt;img src=./time_varying.png /&gt;
+
+]
+
+.footnote[
+- A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
+- DAG from Hernan MA, Robins JM (2019). Causal Inference.]
+
+---
+## Ensayos clínicos aleatorizados
+
+.pull-left[
+
+
+&lt;img src=./rct.png width="400" height="200" /&gt;
+]
+
+--
+
+.pull-right[
+**Análisis por intención de tratar:**
+
+Cuál es el efecto de la aleatorización?
+
+
+
+**Análisis por protocolo:**
+
+Cuál es el efecto de la intervención si todos hubiesen seguido la estrategia asignada durante todo el periodo de tiempo?
+]
+
+.footnote[
+- A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
+- DAG from Hernan MA, Robins JM (2019). Causal Inference.]
+---
+
+## Estudios observacionales
+
+.pull-left[
+
+&lt;img src=./observational.png width="400" height="200"/&gt;]
+
+.pull-right[
+- Estudios de cohorte, historias clínicas electrónicas, registros nacionales
+
+- Bajo ciertos supuestos podemos estimar el efecto causal de una exposición como si estuviesemos realizando un ensayo clínico aleatorizado.
+]
+
+.footnote[
+- A (Exposición), L (Confundidores), Y (Resultado), U (confundidores no medidos).
+- DAG from Hernan MA, Robins JM (2019). Causal Inference.]
+---
+name: title
+class: center, middle
+
+## Intervenciones hipotéticas en la Presión Arterial Sistólica y cesión de fumar para reducir el riesgo de un infarto cerebral y de demencia
+
+---
+
+## Motivación
+
+- El infarto cerebral y demencia son una carga importante en la salud pública y tienen factores de riesgo compartidos. 
+
+- Los ensayos clínicos aleatorizados estudian poblaciones muy específicas, tienen poco tiempo de seguimiento y utilizan análisis por intensión de tratar. 
+
+- Hay poca evidencia del **efecto sostenido** de intervenciones sobre la presión arterial y le cese de fumar
+
+
+---
+
+## Métodos
+
+- Participantes del *Rotterdam Study*, recrutados entre 1990-1993 y seguidos en 5 oportunidades a lo largo de 20 años (n = 7983)
+
+- Criterios de inclusión:
+
+  + Personas menores a 80 años
+  
+  + Sin historia de ACV o demencia o deterioro cognitivo al ingreso al estudio
+  
+  + Información completa al ingreso
+  
+- Muestra total de **5113** 
+
+---
+
+## Intervenciones hipotéticas 
+
+- Curso natural
+
+--
+
+- Mantener la presión arterial sistólica (PAS) &lt; 120 mmHg
+
+- Mantener la presión arterial sistólica (PAS) &lt; 140 mmHg
+
+- Reducir en un 10% del valor actual si es &gt; a 140 mmHg
+
+--
+
+- Dejar de fumar (if fuma actualmente)
+
+--
+
+- Intervenciones conjuntas para disminuir la presión arterial y dejar de fumar
+
+
+---
+## Variable de resultado
+
+- ACV 
+
+- Demencia
+
+- Seguimiento durante 15 años desde el recrutamiento 
+
+- Pérdida de seguimiento
+
+- Muerte es un evento competitivo
+
+---
+## Covariables
+
+.pull-left[
+**Covariables al inicio del estudio:** 
+
+- Edad
+- Educacion
+- Historia de diabetes
+- Historia de enfermedad cardiaca
+- Presión arterial sistólica
+]
+
+--
+
+.pull-right[
+**Covariables que cambian en el tiempo:** 
+
+- Proceso de las visitas
+- Presión Arterial sistólica
+- Indice de masa corporal
+- Consumo de cigarrillos
+- Ingesta de alcohol (g/dia)
+- Colesterol
+- Medicación para la presión alta
+- Desarrollo de: 
+  - Diabetes
+  - Enfermedad cardiaca
+  - Cancer 
+  - ACV/Demencia]
+  
+---
+  
+## Analisis
+
+.center[**_Qué pasaría si toda la población hubiese seguido la intervención asignada (g)?_**]
+
+- G-formula paramétrica
+
+- Permite la presencia de covariables que cambian en el tiempo y que dichas variables pudiesen ser afectadas por la exposición en un tiempo previo.
+
+--
+
+.pull-left[&lt;img src=./dag1.PNG width="400" height="200" /&gt;]
+
+--
+
+.pull-right[&lt;img src=./dag2.png width="400" height="200" /&gt;]
+
+.footnote[
+- A (exposición), L (confundidores), Y (resultado)
+- *g=1*: intervención hipotética (ex. mantener la PAS &lt; 140)]
+---
+
+## G-formula paramétrica
+
+1. Modelamos cada variable por separado (A, L, Y, D) utilizando la información de las variables en los tiempos previos.
+
+--
+
+2. Seleccionamos una muestra al azar y simulamos las observaciones utilizando los coeficientes que estimamos en el paso q utilizando Monte Carlo.
+
+--
+
+3. "Intervenimos" asignando el valor de la exposición que corresponde a la intervención hipotética en todos los puntos del tiempo.
+
+--
+
+4. Estimamos la probabilidad predicha de la variable de resultado basada en los valores actualizados de la exposición.
+
+--
+
+5. Calculamos el promedio del riesgo específico de cada individuo y estimamos los intervalos de confianza utilizando bootstrap.
+
+--
+
+6. Repetimos los pasos 2 a 5 para cada intervención. Comparamos cada intervención con el 
+
+---
+
+## Supuestos
+
+--
+
+- Intercambiabilidad: *Medimos todas las variables que puedan afectar los resultados*
+
+- Positivity: *Pr(Expuesto|Covariables &gt; 0)*
+
+- Consistency: *Intervención está bien definida*
+
+- Los modelos están correctamente especificados
+
+---
+### Assessing modeling
+
+
+&lt;img src=./stroke.png width="500" height="450"/&gt;
+
+---
+## Results: ACV
+El riesgo observado en 15 años de seguimiento es **10.7%**. 
+
+&lt;table class="table table-hover table-responsive" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; IntervenciÃ³n &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Riesgo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Riesgo Relativo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Diferencia de Riesgo &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Total Intervenido % &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 0. Curso natural &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10.6 (9.6,11.8) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 (1, 1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 (0, 0) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1. Mantener PAS &amp;lt; 120 mmHg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.2 (7.7,11.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.9 (0.7, 1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -1.4 (-2.8, 0.1) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 97.9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2. Mantener PAS &amp;lt; 140 mmHg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.5 (8.3,10.7) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.9 (0.8, 1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -1.1 (-2, -0.5) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 83.5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3. Reducir PAS en 10% si &amp;gt; 140 mmHg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.3 (8.1,10.6) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.9 (0.8, 1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -1.3 (-2.3, -0.4) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 83.5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 4. Dejar de fumar (si fuma actualmente) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.9 (8.8,11.2) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.9 (0.9, 1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -0.8 (-1.3, -0.3) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 6. IntervenciÃ³n 1 + 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.6 (7.1,10.5) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.8 (0.7, 0.9) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -2.1 (-3.5, -0.6) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 99.1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 7. Joint 2 + 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.7 (7.6,10.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.8 (0.7, 0.9) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -1.9 (-2.8, -1.1) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 88.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 8. Joint 3 + 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8.7 (7.5,10.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.8 (0.7, 0.9) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; -2 (-3, -1.1) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 88.8 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;&lt;td style="padding: 0; border: 0;" colspan="100%"&gt;&lt;span style="font-style: italic;"&gt;Note: &lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="padding: 0; border: 0;" colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; PAS: PresiÃ³n arterial sistÃ³lica, 500 bootstraps.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-3-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-4-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-5-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-6-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-7-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-8-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-9-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-10-1.png" width="648" style="display: block; margin: auto;" /&gt;
+
+---
+## Resultados: ACV
+
+&lt;img src="test_files/figure-html/unnamed-chunk-11-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+El riesgo observado en 15 años de seguimiento es **9.15%**. 
+
+&lt;table class="table table-hover table-responsive" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; IntervenciÃ³n &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Riesgo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Riesgo Relativo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Diferencia de Riesgo &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Total Intervenido % &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 0. Curso natural &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.2 (8.3,10.3) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 (1, 1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 (0, 0) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1. Mantener PAS &amp;lt; 120 mmHg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10.1 (8.2,11.8) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.1 (0.9, 1.2) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.8 (-0.6, 2.2) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 98.2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2. Mantener PAS &amp;lt; 140 mmHg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.4 (8.2,10.7) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 (0.9, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.2 (-0.5, 0.9) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 84.3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3. Reducir PAS en 10% si &amp;gt; 140 mmHg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.5 (8.2,11) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 (0.9, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.3 (-0.5, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 84.0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 4. Dejar de fumar (si fuma actualmente) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.4 (8.4,10.4) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 (1, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.1 (-0.3, 0.5) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 6. IntervenciÃ³n 1 + 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10.1 (8.3,12) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.1 (0.9, 1.3) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.9 (-0.6, 2.5) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 98.9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 7. Joint 2 + 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.5 (8.3,10.8) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 (1, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.3 (-0.5, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 8. Joint 3 + 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9.7 (8.3,11) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.1 (1, 1.1) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.4 (-0.5, 1.3) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89.1 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;&lt;td style="padding: 0; border: 0;" colspan="100%"&gt;&lt;span style="font-style: italic;"&gt;Note: &lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="padding: 0; border: 0;" colspan="100%"&gt;
+&lt;sup&gt;&lt;/sup&gt; PAS: PresiÃ³n arterial sistÃ³lica, 500 bootstraps.&lt;/td&gt;&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-13-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-14-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-15-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-16-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-17-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-18-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-19-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-20-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Resultados: Demencia
+
+&lt;img src="test_files/figure-html/unnamed-chunk-21-1.png" width="648" style="display: block; margin: auto;" /&gt;
+---
+## Conclusión
+
+- All interventions decrease the risk of stroke at 15 years.
+
+- Joint interventions decrease the risk of stroke even more.
+
+- There is no effect of interventions in the risk of dementia at 15 years.
+
+- Results with dementia as the outcome may be afected by selection bias.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
