@@ -271,11 +271,11 @@ class: center, middle
 
 --
 
-.pull-left[<img src=./dag1.PNG width="400" height="200" />]
+.pull-left[<img src=./dag1.png width="400" height="200" />]
 
 --
 
-.pull-right[<img src=./dag2.PNG width="400" height="200" />]
+.pull-right[<img src=./dag2.png width="400" height="200" />]
 
 --
 
