@@ -18,19 +18,19 @@ table <- function(data){
       int == 2 ~ "2. Mantener PAS < 140 mmHg",
       int == 3 ~ "3. Reducir PAS en 10% si > 140 mmHg",
       int == 6 ~ "4. Dejar de fumar (si fuma actualmente)",
-      int == 7 ~ "6. Intervención 1 + 4",
-      int == 8 ~ "7. Joint 2 + 4",
-      int == 9 ~ "8. Joint 3 + 4",
+      int == 7 ~ "6. Intervencion 1 + 4",
+      int == 8 ~ "7. Intervencion 2 + 4",
+      int == 9 ~ "8. Intervencion 3 + 4",
       TRUE ~ int2)) %>% 
     select(int2, Riesgo, RR, DR, intervened) %>% 
-    rename(`Intervención` = int2,
+    rename(`Intervencion` = int2,
            `Riesgo Relativo` = RR,
            `Diferencia de Riesgo` = DR,
            `Total Intervenido %` = intervened) %>% 
     kable() %>% 
     kable_styling(bootstrap_options = c("hover", "responsive"), full_width = TRUE,
                   font_size = 15) %>% 
-    footnote(general = "PAS: Presión arterial sistólica, 500 bootstraps.")
+    footnote(general = "PAS: Presion arterial sistolica, 500 bootstraps.")
 }
 
 
@@ -55,9 +55,9 @@ set_long <- function(df){
              int == 2 ~ "2. Mantener PAS < 140 mmHg",
              int == 3 ~ "3. Reducir PAS en 10% si > 140 mmHg",
              int == 6 ~ "4. Dejar de fumar (si fuma actualmente)",
-             int == 7 ~ "6. Intervención 1 + 4",
-             int == 8 ~ "7. Joint 2 + 4",
-             int == 9 ~ "8. Joint 3 + 4",
+             int == 7 ~ "6. Intervencion 1 + 4",
+             int == 8 ~ "7. Intervencion 2 + 4",
+             int == 9 ~ "8. Intervencion 3 + 4",
              TRUE ~ int2),
            int2 = as.factor(int2))
   
@@ -86,10 +86,9 @@ surv_graph <- function(df, a, b, c) {
     labs(title = glue("Incidencia acumulada de {outcome} en 15 anos de seguimiento"),
          x = "Anos de seguimiento",
          y = "Incidencia acumulada %",
-         color = "Intervención") +
+         color = "Intervencion") +
     scale_y_continuous(limits = c(0, 12), breaks=seq(0,12, 2)) +
-    theme(legend.position = 'bottom')
-    
-}
+    theme_minimal() +
+    theme(legend.position = 'bottom')}
 
 

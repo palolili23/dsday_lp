@@ -29,7 +29,7 @@ body {
 h1, h2, h3 {
   font-family: Chilanka;
   font-weight: normal;
-  color: #EBCC2A;
+  color: #E1AF00;
 }
 .remark-slide-content {
   background-color: #FFFFFF;
@@ -89,7 +89,7 @@ a, a > code {
   color: #FFFFFF;
 }
 .title-slide, .title-slide h1, .title-slide h2, .title-slide h3 {
-  color: #FFFFFF;
+  color: #EBCC2A;
 }
 .title-slide {
   background-color: #3B9AB2;
@@ -137,12 +137,12 @@ blockquote {
 }
 .remark-slide table {
   margin: auto;
-  border-top: 1px solid #666;
-  border-bottom: 1px solid #666;
+  border-top: 1px solid #3B9AB2;
+  border-bottom: 1px solid #3B9AB2;
 }
 .remark-slide table thead th { border-bottom: 1px solid #ddd; }
 th, td { padding: 5px; }
-.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) { background: #C4E0E7 }
+.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) { background: #FFFFFF }
 table.dataTable tbody {
   background-color: #FFFFFF;
   color: #3B9AB2;
@@ -151,7 +151,7 @@ table.dataTable.display tbody tr.odd {
   background-color: #FFFFFF;
 }
 table.dataTable.display tbody tr.even {
-  background-color: #C4E0E7;
+  background-color: #FFFFFF;
 }
 table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
   background-color: rgba(255, 255, 255, 0.5);
