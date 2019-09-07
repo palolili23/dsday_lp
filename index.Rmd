@@ -275,7 +275,9 @@ class: center, middle
 
 --
 
-.pull-right[<img src=./dag2.png width="400" height="200" />]
+.pull-right[<img src=./dag2.PNG width="400" height="200" />]
+
+--
 
 .footnote[
 - A (exposición), L (confundidores), Y (resultado)
